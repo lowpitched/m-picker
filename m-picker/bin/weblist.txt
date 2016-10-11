@@ -1,0 +1,104 @@
+/**
+说明：
+	1.大括号包含的为执行要爬的网页和拾取规则
+	2.每一个规则块必须有且只能有一个RUL（网址）。
+	3.正则、需要链入的正则（已@开头）、处理数据的java类（用%%包含）可以有多个也可以没有
+	4.凡是正则匹配上的需要抓取的后面都加"*"，不加 "*"默认不抓取，为后面加"*"正则服务
+	4.至少要有一个输出，可以输出*.txt、*.xls、也可以是insert语句前半部分
+	3.可以同时爬多个网页，但每个规则块之间不能有空行，不同规则块之间必须用空行隔开
+*/	
+www.hexun.com
+
+{
+http://localhost:8080/pick/picker.html
+xpath://table/tr:{string}:(*)
+xpath://td:{string}:(*)
+out:D:/demo1.txt
+link:xpath://a/@href:{string}:(*)
+xpath://table/tr:{string}:(*)
+xpath://td:{string}:(*)
+out:D:/demo2.txt
+link:xpath://a/@href:{string}:(*)
+xpath://table/tr:{string}:(1)|
+xpath://td:{string}:(*)|
+out:insert into a_info(tid,foreignId,field1,field2,field3,field4) values(?,?,?,?,?,?)
+}
+
+http://localhost:8080/pick/picker.html
+xpath://table/tr:{string}:(*)
+xpath://td:{string}:(*)
+out:D:/demo1.txt
+link:xpath://a/@href:{string}:(*)
+xpath://table/tr:{string}:(*)
+xpath://td:{string}:(*)
+out:D:/demo2.txt
+link:xpath://a/@href:{string}:(*)
+xpath://table/tr:{string}:(*)
+xpath://td:{string}:(*)
+out:insert into a_info(tid,foreignId,field1,field2,field3,field4) values(?,?,?,?,?,?)
+
+
+@/<a[\s\S]*?</a>/(*)
+/<table>[\s\S]*?</table>/(*)
+/<tr>[\s\S]*?</tr>/(*)
+/<td>[\s\S]*?</td>/(*)*
+D:/demo2.txt
+@/<a[\s\S]*?</a>/(*)
+/<table>[\s\S]*?</table>/(*)
+/<tr>[\s\S]*?</tr>/(*)
+/<td>[\s\S]*?</td>/(*)*
+D:/demo3.txt
+
+http://localhost:8080/pick/picker.html
+/<table>[\s\S]*?</table>/(*)
+/<tr>[\s\S]*?</tr>/(*)
+/<td>[\s\S]*?</td>/(*)*
+D:/demo.txt
+@/<a[\s\S]*?</a>/(*)
+/<table>[\s\S]*?</table>/(*)
+/<tr>[\s\S]*?</tr>/(*)
+/<td>[\s\S]*?</td>/(*)*
+D:/demo2.txt
+@/<a[\s\S]*?</a>/(*)
+/<table>[\s\S]*?</table>/(*)
+/<tr>[\s\S]*?</tr>/(*)
+/<td>[\s\S]*?</td>/(*)*
+D:/demo3.txt
+
+
+regex:
+xpath://td:{date:(x*5+10)*100/4}:(*)
+out:insert into (fielda,fieldb,fieldc) values(1,?,?)
+link:regex:
+link:xpath
+class:
+
+
+www.baidu.com?page=[1-100]&content=aaa
+/<table>*</table>/(3)  
+/<tr>*</tr>/(*)
+/<td>*</td>/(*)*
+insert into tab_user(name,partement)
+@/<a></a>/(1)*
+%com.yss.dataFilter
+insert into tab_user_detail(name,age,education)
+
+
+
+www.hexun.com
+@regex(正则表达式以@开头表示超级链接，打开链接)*
+正则表达式3*
+%com.yss.dataFilter
+正则表达式取数*
+insert into tab_demo(name,age,id)
+demo.txt
+demo.xls
+
+
+www.sina.com 
+www.sohu.com 
+www.microsoft.com
+
+
+www.tecent.com
+www.beijing.com
